@@ -1,11 +1,18 @@
 body {
   font-family: sans-serif;
   padding: 20px;
-  background: #fafafa;
+  background: #ffffff;
+}
+.title_parts{
+  text-align: center;
 }
 
-h1 {
-  margin-bottom: 20px;
+.title_parts h1 {
+  display: inline-block;
+  margin: 20px auto;
+  
+  border-bottom: 2px solid rgb(75, 177, 109) ;
+  padding-bottom:8px;
 }
 
 form label {
@@ -15,12 +22,12 @@ form label {
 
 table {
   width: 100%;
-  margin-top: 20px;
+  margin-top: 10px;
   border-collapse: collapse;
 }
 
 table, th, td {
-  border: 1px solid #ccc;
+  border: 1px solid #bebaba;
 }
 
 th, td {
