@@ -1,22 +1,55 @@
-document.getElementById("receivableForm").addEventListener("submit", function (e) {
-  e.preventDefault();
+// 債権データ配列
+const receivables = [];
 
-  const date = paymentDate.value;
-  const amount = amount.value;
-  const customer = customer.value;
-  const note = note.value;
+document
+  .getElementById("receivableForm")
+  .addEventListener("submit", function (e) {
+    e.preventDefault();
 
-  const table = document.getElementById("receivableTable").querySelector("tbody");
+    const date = document.getElementById("paymentDate").value;
+    const amountStr = document.getElementById("amount").value;
+    const customer = document.getElementById("customer").value;
+    const note = document.getElementById("note").value;
 
-  const row = document.createElement("tr");
-  row.innerHTML = `
-    <td>${date}</td>
-    <td>${amount}</td>
-    <td>${customer}</td>
-    <td>${note}</td>
-  `;
+    if (!date || !amountStr || !customer) {
+      alert("入金日・金額・取引先は必須です。");
+      return;
+    }
 
-  table.appendChild(row);
+    const amount = Number(amountStr);
+    if (Number.isNaN(amount) || amount <= 0) {
+      alert("金額は0より大きい数値を入力してください。");
+      return;
+    }
 
-  e.target.reset();
-});
+    const rec = { date, amount, customer, note };
+    receivables.push(rec);
+
+    const tableBody = document
+      .getElementById("receivableTable")
+      .querySelector("tbody");
+
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td>${rec.date}</td>
+      <td>${rec.amount}</td>
+      <td>${rec.customer}</td>
+      <td>${rec.note}</td>
+    `;
+
+    tableBody.appendChild(row);
+
+    updateReceivableSummary();
+
+    e.target.reset();
+  });
+
+// サマリー更新
+function updateReceivableSummary() {
+  const count = receivables.length;
+  const total = receivables.reduce((sum, r) => sum + r.amount, 0);
+
+  document.getElementById("receivableCount").textContent = count;
+  document.getElementById("receivableTotal").textContent =
+    total.toLocaleString();
+}
